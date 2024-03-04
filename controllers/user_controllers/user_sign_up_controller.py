@@ -23,10 +23,27 @@ def create_resource():
         cursor = connection.cursor()
         cursor.execute("INSERT INTO users (name, email, phone, role, password) VALUES (%s, %s, %s, %s, %s)", (name, email, phone, role, password))
         connection.commit()
+
+        # Fetch the created user's data
+        user_id = cursor.lastrowid
+        cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+        user_data = cursor.fetchone()
+
         cursor.close()
 
-        # Respond with success message
-        return jsonify({'message': 'User created successfully'}), 201
+        # Respond with success message and created user data
+        response_data = {
+            'message': 'User created successfully',
+            'user': {
+                'id': user_data[0],
+                'name': user_data[1],
+                'email': user_data[2],
+                'phone': user_data[3],
+                'role': user_data[4]
+                # Add more fields if needed
+            }
+        }
+        return jsonify(response_data), 201
     except Exception as e:
         # Handle errors
         return jsonify({'error': str(e)}), 500
