@@ -1,19 +1,12 @@
 # controllers/user_controllers/user_sign_up_controller.py
 
 from flask import Blueprint, request, jsonify
-import mysql.connector
+from config.mysql_db import get_mysql_connection
 
 user_signup_controller = Blueprint('user_signup_controller', __name__)
 
-# now make a folder config at the root of the project, and inside make a file mysql_db.py, instead of connecting mysql db at every controller file
-# Assuming you have a MySQL connection already established
-connection = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="flask_tutorial"
-)
-
+# Get MySQL database connection
+connection = get_mysql_connection()
 
 @user_signup_controller.route('/signup', methods=['POST'])
 def create_resource():
