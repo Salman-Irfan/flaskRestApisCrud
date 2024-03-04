@@ -9,7 +9,7 @@ user_signup_controller = Blueprint('user_signup_controller', __name__)
 connection = get_mysql_connection()
 
 @user_signup_controller.route('/signup', methods=['POST'])
-def create_resource():
+def user_sign_up():
     try:
         # Get user data from the request
         data = request.json
@@ -21,7 +21,9 @@ def create_resource():
 
         # Insert user data into the database
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO users (name, email, phone, role, password) VALUES (%s, %s, %s, %s, %s)", (name, email, phone, role, password))
+        cursor.execute(f"INSERT INTO users (name, email, phone, role, password) VALUES ('{name}', '{email}', '{phone}', '{role}', '{password}')")
+        # for preventing sql injection
+        # cursor.execute("INSERT INTO users (name, email, phone, role, password) VALUES (%s, %s, %s, %s, %s)", (name, email, phone, role, password))
         connection.commit()
 
         # Fetch the created user's data
