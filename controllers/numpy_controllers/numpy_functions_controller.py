@@ -7,6 +7,8 @@ numpy_functions_controller = Blueprint("numpy_functions_controller", __name__)
 @numpy_functions_controller.route("/min", methods=["POST"])
 def min_array():
     try:
+        arr_one = np.array([[1,2,3,4],[1,2,3,4]])
+        print (arr_one)
         data = request.get_json()
         array = np.array(data["array"])
         result = np.min(array)
