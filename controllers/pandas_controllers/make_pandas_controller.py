@@ -75,3 +75,68 @@ def create_pandas_series_from_dict():
     except Exception as e:
         # Handle errors
         return jsonify({"error": str(e)}), 500
+
+
+# make an api controller that makes patyon data frame from a list
+@make_pandas_controller.route("/pandas-dataframe", methods=["POST"])
+def create_pandas_dataframe():
+    try:
+        # Get JSON data from the request
+        data = request.get_json()
+
+        # Extract the list of dictionaries from the JSON data
+        data_list = data.get("data", [])
+
+        # Create a Pandas DataFrame from the list of dictionaries
+        df = pd.DataFrame(data_list)
+        print(df)
+        # Convert the Pandas DataFrame to a dictionary for JSON serialization
+        df_dict = df.to_dict(orient="records")
+
+        # Return the Pandas DataFrame as JSON response
+        return jsonify({"pandas_dataframe": df_dict}), 200
+    except Exception as e:
+        # Handle errors
+        return jsonify({"error": str(e)}), 500
+
+
+# make an api to insert a new data in data frame
+@make_pandas_controller.route("/insert-data", methods=["POST"])
+def insert_data():
+    try:
+        # Get JSON data from the request
+        request_data = request.get_json()
+
+        # Extract data to insert from JSON data
+        index = request_data.get("index")
+        column_name = request_data.get("column_name")
+        data_to_insert = request_data.get("data_to_insert")
+        # Sample DataFrame for demonstration
+        sample_data = {
+            "A": [1, 2, 3], 
+            "B": ["a", "b", "c"], 
+            "C": [True, False, True]
+        }
+        df = pd.DataFrame(sample_data)
+        # Insert data into DataFrame
+        df.insert(index, column_name, data_to_insert)
+        print(df)
+        # Return updated DataFrame as JSON response
+        return jsonify({"data_frame": df.to_dict()}), 200
+    except Exception as e:
+        # Handle errors
+        return jsonify({"error": str(e)}), 500
+
+
+# make an api to insert a new data in data frame
+@make_pandas_controller.route("/make-csv", methods=["Get"])
+def make_csv_file():
+    try:
+        dis={"a":[1,2,3,4,5],"s":[1,2,3,4,5], "d": [1,2,3,4,5]}
+        df=pd.DataFrame(dis)
+        print(df)
+        result = df.to_csv("dict_to_csv.csv", index=False)
+        return jsonify({"data_frame": result}), 200
+    except Exception as e:
+        # Handle errors
+        return jsonify({"error": str(e)}), 500
