@@ -99,3 +99,17 @@ def array_where():
         return jsonify({"result": result_list}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+# numpy insert function controller
+@numpy_reshape_controller.route("/array-insert", methods=["POST"])
+def array_insert():
+    try:
+        data = request.get_json()
+        array = np.array(data["array"])
+        index = data["index"]
+        value = data["value"]
+        result = np.insert(array, index, value)
+        return jsonify({"result": result.tolist()}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
