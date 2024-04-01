@@ -85,3 +85,17 @@ def array_split():
         return jsonify({"result": [arr.tolist() for arr in result]}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+# numpy array where function
+@numpy_reshape_controller.route("/array-where", methods=["POST"])
+def array_where():
+    try:
+        data = request.get_json()
+        array = np.array(data["array"])
+        result = np.where(array == 2)
+        # Convert NumPy array to Python list before jsonify
+        result_list = result[0].tolist()
+        return jsonify({"result": result_list}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
