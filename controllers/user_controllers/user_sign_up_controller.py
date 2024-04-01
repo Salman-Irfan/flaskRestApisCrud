@@ -49,3 +49,4 @@ def user_sign_up():
     except Exception as e:
         # Handle errors
         return jsonify({'error': str(e)}), 500
+
