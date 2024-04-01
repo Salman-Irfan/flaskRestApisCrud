@@ -52,3 +52,26 @@ def create_pandas_series_with_dtype():
     except Exception as e:
         # Handle errors
         return jsonify({"error": str(e)}), 500
+
+
+# make api that makes pandas series from a dictionary
+@make_pandas_controller.route("/pandas-series-from-dict", methods=["POST"])
+def create_pandas_series_from_dict():
+    try:
+        # Get JSON data from the request
+        data = request.get_json()
+
+        # Extract the dictionary from the JSON data
+        data_dict = data.get("data", {})
+
+        # Create a Pandas Series from the dictionary
+        series = pd.Series(data_dict)
+        print(series)
+        # Convert the Pandas Series to a dictionary for JSON serialization
+        series_dict = series.to_dict()
+
+        # Return the Pandas Series as JSON response
+        return jsonify({"pandas_series": series_dict}), 200
+    except Exception as e:
+        # Handle errors
+        return jsonify({"error": str(e)}), 500
