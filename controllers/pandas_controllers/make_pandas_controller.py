@@ -195,7 +195,15 @@ def pandas_functions():
         # Convert DataFrame result of describe to dictionary for JSON response
         csv_1_describe_dict = csv_1_describe.to_dict()
 
-        # Return DataFrame, index, columns, describe result, and other data as JSON response
+        # range
+        csv_1_range = csv_1[4:8]
+        print(csv_1_range)
+        # also send csv range result in response
+
+        # Convert DataFrame result of range to dictionary for JSON response
+        csv_1_range_dict = csv_1_range.to_dict()
+
+        # Return DataFrame, index, columns, describe result, range result, and other data as JSON response
         return (
             jsonify(
                 {
@@ -203,6 +211,7 @@ def pandas_functions():
                     "index": csv_1_index_list,
                     "columns": csv_1_columns_list,
                     "describe": csv_1_describe_dict,
+                    "range": csv_1_range_dict,
                 }
             ),
             200,
