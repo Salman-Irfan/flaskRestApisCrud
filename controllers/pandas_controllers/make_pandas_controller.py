@@ -151,10 +151,19 @@ def read_csvfile():
         csv_row = pd.read_csv("dict_to_csv.csv", nrows=1)
         csv_row_dict = csv_row.to_dict(orient="records")[0]
 
-        # also send csv_row within the response
+        # get a column from the csv file
+        csv_col = pd.read_csv("dict_to_csv.csv", usecols=["a", "s"])
+        print(csv_col)
+        csv_col_dict = csv_col.to_dict(orient="records")
 
-        # Return both csv_dict and csv_row_dict in the JSON response
-        return jsonify({"csv": csv_dict, "csv_row": csv_row_dict}), 200
+        # Return both csv_dict, csv_row_dict, and csv_col_dict in the JSON response
+        return (
+            jsonify(
+                {"csv": csv_dict, "csv_row": csv_row_dict, "csv_col": csv_col_dict}
+            ),
+            200,
+        )
+
     except Exception as e:
         # Handle errors
         return jsonify({"error": str(e)}), 500
