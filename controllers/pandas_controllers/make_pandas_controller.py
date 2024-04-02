@@ -188,13 +188,21 @@ def pandas_functions():
         # Convert Index to list for JSON response
         csv_1_columns_list = csv_1_columns.tolist()
 
-        # Return DataFrame, index, columns, and other data as JSON response
+        # describe method
+        csv_1_describe = csv_1.describe()
+        print(csv_1_describe)
+
+        # Convert DataFrame result of describe to dictionary for JSON response
+        csv_1_describe_dict = csv_1_describe.to_dict()
+
+        # Return DataFrame, index, columns, describe result, and other data as JSON response
         return (
             jsonify(
                 {
                     "data_frame": "result",
                     "index": csv_1_index_list,
                     "columns": csv_1_columns_list,
+                    "describe": csv_1_describe_dict,
                 }
             ),
             200,
