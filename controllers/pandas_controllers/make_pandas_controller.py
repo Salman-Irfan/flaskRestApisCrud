@@ -167,3 +167,23 @@ def read_csvfile():
     except Exception as e:
         # Handle errors
         return jsonify({"error": str(e)}), 500
+
+
+# make an api for pandas functions
+@make_pandas_controller.route("/pandas-functions", methods=["Get"])
+def pandas_functions():
+    try:
+        # logic to read csv file
+        csv_1 = pd.read_csv("dict_to_csv.csv")
+        # indexes
+        csv_1_index = csv_1.index
+        print(csv_1_index)  # RangeIndex(start=0, stop=5, step=1)
+
+        # Convert RangeIndex to list for JSON response
+        csv_1_index_list = csv_1_index.tolist()
+
+        # Return DataFrame, index, and other data as JSON response
+        return jsonify({"data_frame": "result", "index": csv_1_index_list}), 200
+    except Exception as e:
+        # Handle errors
+        return jsonify({"error": str(e)}), 500
