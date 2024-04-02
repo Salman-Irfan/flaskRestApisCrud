@@ -147,8 +147,14 @@ def read_csvfile():
         # Convert DataFrame to dictionary
         csv_dict = csv_1.to_dict(orient="records")
 
-        # Return the dictionary as JSON response
-        return jsonify({"csv": csv_dict}), 200
+        # get a specific row from the csv file
+        csv_row = pd.read_csv("dict_to_csv.csv", nrows=1)
+        csv_row_dict = csv_row.to_dict(orient="records")[0]
+
+        # also send csv_row within the response
+
+        # Return both csv_dict and csv_row_dict in the JSON response
+        return jsonify({"csv": csv_dict, "csv_row": csv_row_dict}), 200
     except Exception as e:
         # Handle errors
         return jsonify({"error": str(e)}), 500
