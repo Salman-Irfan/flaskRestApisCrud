@@ -177,13 +177,28 @@ def pandas_functions():
         csv_1 = pd.read_csv("dict_to_csv.csv")
         # indexes
         csv_1_index = csv_1.index
-        print(csv_1_index)  # RangeIndex(start=0, stop=5, step=1)
 
         # Convert RangeIndex to list for JSON response
         csv_1_index_list = csv_1_index.tolist()
 
-        # Return DataFrame, index, and other data as JSON response
-        return jsonify({"data_frame": "result", "index": csv_1_index_list}), 200
+        # columns
+        csv_1_columns = csv_1.columns
+        print(csv_1_columns)  # Index(['a', 's', 'd'], dtype='object')
+
+        # Convert Index to list for JSON response
+        csv_1_columns_list = csv_1_columns.tolist()
+
+        # Return DataFrame, index, columns, and other data as JSON response
+        return (
+            jsonify(
+                {
+                    "data_frame": "result",
+                    "index": csv_1_index_list,
+                    "columns": csv_1_columns_list,
+                }
+            ),
+            200,
+        )
     except Exception as e:
         # Handle errors
         return jsonify({"error": str(e)}), 500
